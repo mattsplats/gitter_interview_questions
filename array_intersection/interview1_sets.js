@@ -23,19 +23,13 @@ Set.prototype.intersection = function(setB) {
 // Set-based intersect function
 // Correctly handles all primitive types
 // Runs in O(n + m) time (assuming set membership is a correctly implemented O(1) operation)
-// By using the smaller set as the argument to intersection(), fewer loop iterations are required
 function intersect(arr1, arr2) {
-  // Reference swap so longer array always becomes set1
-  if (arr1.length < arr2.length) {
-    const temp = arr1;
-    arr1 = arr2;
-    arr2 = temp;
-  }
-
   const set1 = new Set(arr1),
         set2 = new Set(arr2);
 
+  // By using the smaller set as the argument to intersection(), fewer loop iterations are required
   // Uses the ES6 spread operator so that the returned value is an array
+  if (arr1.length < arr2.length) return [...set2.intersection(set1)];
   return [...set1.intersection(set2)];
 }
 
