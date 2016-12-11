@@ -4,6 +4,7 @@ map given cards to indexes
 find the disjoint set
 */
 
+// Set difference
 Set.prototype.diff = function (setB) {
   const diff = new Set(this);
 
@@ -14,6 +15,7 @@ Set.prototype.diff = function (setB) {
   return diff;
 }
 
+// Map card objects to integers 1-52
 function mapToIndex (cards) {
   let result = [];
 
@@ -47,6 +49,48 @@ function mapToIndex (cards) {
   return result;
 }
 
+// Map integers back to card objects
+function mapToCards (integers) {
+  let result = [];
+
+  const numToSuit = {
+    '0': 'spades',
+    '1': 'clubs',
+    '2': 'diamonds',
+    '3': 'hearts'
+  };
+
+  const numToValue = {
+    '1': 'ace',
+    '2': 'two',
+    '3': 'three',
+    '4': 'four',
+    '5': 'five',
+    '6': 'six',
+    '7': 'seven',
+    '8': 'eight',
+    '9': 'nine',
+    '10': 'ten',
+    '11': 'jack',
+    '12': 'queen',
+    '13': 'king'
+  };
+
+  for (const integer of integers)  {
+    const suitNum  = integer / 13 === Math.floor(integer / 13) ? Math.floor(integer / 13) - 1 : Math.floor(integer / 13),
+          valueNum = integer % 13 === 0 ? 13 : integer % 13;
+
+    result.push({
+      suit: numToSuit[suitNum.toString()],
+      value: numToValue[valueNum.toString()]
+    });
+  }
+
+  return result;
+}
+
+// Main function
+// Will return an array of cards missing from a full deck
 function findMissingCards (cards) {
   let fullDeck = [];
 
@@ -57,9 +101,10 @@ function findMissingCards (cards) {
   const cardsSet    = new Set(mapToIndex(cards)),
         fullDeckSet = new Set(fullDeck);
 
-  return [...fullDeckSet.diff(cardsSet)];
+  return mapToCards([...fullDeckSet.diff(cardsSet)]);
 }
 
+// Test function
 const cards = [
   {
     suit: 'spades',
@@ -71,4 +116,5 @@ const cards = [
   }
 ];
 
+console.log('The missing cards are:');
 console.log(findMissingCards(cards));
