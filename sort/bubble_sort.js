@@ -18,5 +18,6 @@ let testArr = [];
 for (let i = 0; i < 100; i++) {
   testArr.push(Math.floor(Math.random() * 1000));
 }
+console.log(testArr);
 bubble_sort(testArr);
 console.log(testArr);
